@@ -1,0 +1,63 @@
+# get the name of the branch we are on
+function git_prompt_info() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  echo " (${ref#refs/heads/}$(parse_git_dirty)$(parse_git_pushable) $(time_since_last_commit))"
+}
+
+# Checks if working tree is dirty
+parse_git_dirty() {
+  if [[ -n $(git status -s ${SUBMODULE_SYNTAX}  2> /dev/null) ]]; then
+    echo "*"
+  fi
+}
+
+# Check to see if we have commits to push
+parse_git_pushable() {
+  local origin="$(git remote | grep origin | wc -l | awk {'print $1'})"
+  if [[ $origin > 0 ]]; then
+    local branch="$(git branch | grep "*" | cut -d' ' -f2)"
+
+    git log origin/$branch.. --oneline > /dev/null 2>&1
+    if [ $? -eq 0 ]; then;
+      local count="$(git log origin/$branch.. --oneline | wc -l | awk {'print $1'})"
+      if [[ $count > 0 ]]; then
+        echo "^$count"
+      fi
+    fi
+  fi
+}
+
+time_since_last_commit() {
+  minutes="$(minutes_since_last_commit)"
+  if [ "$minutes" -gt 525600 ]; then
+    (( years = $minutes / 525600 ))
+    echo "%{$terminfo[bold]$fg[red]%}${years}y%{$reset_color%}"
+  elif [ "$minutes" -gt 10080 ]; then
+    (( weeks = $minutes / 10080 ))
+    echo "%{$terminfo[bold]$fg[red]%}${weeks}w%{$reset_color%}"
+  elif [ "$minutes" -gt 1440 ]; then
+    (( days = $minutes / 1440 ))
+    echo "%{$terminfo[bold]$fg[red]%}${days}d%{$reset_color%}"
+  elif [ "$minutes" -gt 60 ]; then
+    (( hours = $minutes / 60.0 ))
+    echo "%{$terminfo[bold]$fg[red]%}${hours}h%{$reset_color%}"
+  elif [ "$minutes" -gt 30 ]; then
+    echo "%{$terminfo[bold]$fg[red]%}${minutes}m%{$reset_color%}"
+  elif [ "$minutes" -gt 10 ]; then
+    echo "%{$terminfo[bold]$fg[yellow]%}${minutes}m%{$reset_color%}"
+  else
+    echo "%{$fg[green]%}${minutes}m%{$reset_color%}"
+  fi
+}
+
+minutes_since_last_commit() {
+  now=`date +%s`
+  last_commit=`git log --pretty=format:'%at' -1 2>/dev/null`
+  if $lastcommit ; then
+    seconds_since_last_commit=$((now-last_commit))
+    minutes_since_last_commit=$((seconds_since_last_commit/60))
+    echo "${minutes_since_last_commit}"
+  else
+    echo "-1"
+  fi
+}
