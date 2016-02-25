@@ -1,0 +1,6 @@
+tags
+.foreman
+.DS_Store
+vendor/bundle/
+.bundle
+tags
