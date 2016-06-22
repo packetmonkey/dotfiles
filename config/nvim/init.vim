@@ -180,7 +180,7 @@ nmap ga <Plug>(EasyAlign)
 " map <leader>W :tabnext<cr>
 
 " Force saving files that require root permission
-" cmap w!! %!sudo tee > /dev/null %
+cmap w!! %!sudo tee > /dev/null %
 
 map <Leader>i mmgg=G`m
 map <Leader>p :set paste<CR><esc>"*]p:set nopaste<cr>
