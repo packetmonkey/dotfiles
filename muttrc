@@ -22,7 +22,7 @@ set mbox      = "+PacketMonkey/Archive"
 set postponed = "+PacketMonkey/Drafts"
 
 set date_format = "%m/%d"
-set index_format = "[%Z]  %D  %-20.20F  %s"
+set index_format = "[%Z] (%02E) %-20.20F  %s"
 set sort = threads
 set sort_aux = reverse-last-date-received
 set uncollapse_jump
@@ -42,7 +42,7 @@ set reply_to                         # reply to Reply to: field
 set reverse_name                     # reply as whomever it was to
 set include                          # include message in replies
 set forward_quote                    # include message in forwards
-set editor = "vim"                   # Use terminal Vim to compose email.
+set editor = "nvim"                  # Use terminal Vim to compose email.
 set sendmail = "/usr/local/bin/msmtp -a fastmail"
 set sendmail_wait = 0
 set record="+PacketMonkey/INBOX.Sent Messages"
@@ -88,6 +88,11 @@ color index brightgreen default ~U
 color index brightyellow red ~T
 color index brightyellow default ~F
 
+color index default default "~v~(!~N)~(!~F)" # collapsed thread with no New or Flagged
+color index red     default "~v~(~F)~(!~N)"  # collapsed thread with Flagged but no New
+color index green   default "~v~(~N)"        # collapsed thread with New
+
 color hdrdefault cyan default
 color header white default ^From:
-color header brightdefault default ^Subject:
+color header brightdefault default ^Soubject:
+folder-hook . "push <collapse-all>\n"
