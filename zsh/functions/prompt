@@ -1,0 +1,22 @@
+source ~/.zsh/functions/git
+source ~/.zsh/functions/rbenv
+
+# Do the heavy lifting if make it all pretty
+generate_prompt() {
+  local hostname="%m"
+  local current_dir="%{$terminfo[bold]$fg[blue]%} %~%{$reset_color%}"
+  local ruby="%{$terminfo[bold]$fg[red]%}$(rbenv_local_version)%{$reset_color%}"
+  local git_branch="%{$terminfo[bold]$fg[yellow]%}$(git_prompt_info)%{$reset_color%}"
+
+  if [ $UID -ne 0 ]; then
+    local prompt_glyph="%B$%b"
+  else
+    local prompt_glyph="%{$terminfo[bold]$fg[red]%}#%{$reset_color%}"
+  fi
+#   PROMPT="╭─${user_host} ${current_dir} ${ruby} ${git_branch}
+  # PROMPT="${current_dir}${git_branch}
+  PROMPT="┏ ${hostname}${git_branch}${ruby}${current_dir}
+┗ ${prompt_glyph} "
+}
+
+# vim: ft=zsh

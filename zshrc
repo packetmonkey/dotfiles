@@ -18,42 +18,24 @@ SAVEHIST=20000
 
 autoload -U colors && colors
 
-source ~/.zsh/functions/git
-
-# Get our local rbenv version if we have one
-function rbenv_local_version() {
-  echo "‹$(rbenv version | sed -e "s/ (set.*$//")›"
-}
-
-# Do the heavy lifting if make it all pretty
-generate_prompt() {
-  local current_dir="%{$terminfo[bold]$fg[blue]%} %~%{$reset_color%}"
-  # local ruby="%{$terminfo[bold]$fg[red]%}$(rbenv_local_version)%{$reset_color%}"
-  local git_branch="%{$terminfo[bold]$fg[yellow]%}$(git_prompt_info)%{$reset_color%}"
-
-  if [ $UID -ne 0 ]; then
-    local prompt_glyph="%B$%b"
-  else
-    local prompt_glyph="%{$terminfo[bold]$fg[red]%}#%{$reset_color%}"
-  fi
-#   PROMPT="╭─${user_host} ${current_dir} ${ruby} ${git_branch}
-  PROMPT="${current_dir}${git_branch} ${prompt_glyph} "
-}
+source ~/.zsh/functions/prompt
 
 precmd() { generate_prompt }
 
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
 export CLICOLOR=$LSCOLORS
 export NODE_PATH="/usr/local/lib/node_modules/"
-export PATH="./bin:~/.cargo/bin:$PATH"
+export PATH="/Users/evan/Bin:./bin:~/.cargo/bin:$PATH"
 export EDITOR="nvim"
+export GREP_COLOR='1;30;43'
+export GREP_OPTIONS='--color=auto'
 
 # http://www.economyofeffort.com/2013/08/03/zsh-tmux-vim-and-256-color-madness/
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
 path=(/usr/local/bin /usr/local/share/npm/bin $path)
-export GIT_EDITOR="nvim -c 'startinsert'"
+export GIT_EDITOR="nvim"
 
 rndpw() {
   password=$(head -c 128 /dev/urandom | shasum | cut -d' ' -f1)
@@ -105,4 +87,4 @@ function editconflicts() {
 # added by travis gem
 [ -f /Users/evan/.travis/travis.sh ] && source /Users/evan/.travis/travis.sh
 
- [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
