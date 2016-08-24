@@ -1,7 +1,7 @@
 # Do the heavy lifting if make it all pretty
 generate_prompt() {
   local hostname="%m"
-  local git_branch="%{$terminfo[bold]$fg[yellow]%}$(git-prompt .)%{$reset_color%}"
+  local git_branch="$(git-prompt .)%{$reset_color%}"
   local ruby="%{$terminfo[bold]$fg[red]%}$(ruby-prompt .)%{$reset_color%}"
   local current_dir="%{$terminfo[bold]$fg[blue]%} %~%{$reset_color%}"
 
