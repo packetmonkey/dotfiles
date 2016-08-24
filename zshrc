@@ -25,7 +25,6 @@ precmd() { generate_prompt }
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
 export CLICOLOR=$LSCOLORS
 export NODE_PATH="/usr/local/lib/node_modules/"
-export PATH="/Users/evan/Bin:./bin:~/.cargo/bin:$PATH"
 export EDITOR="nvim"
 export GREP_COLOR='1;30;43'
 export GREP_OPTIONS='--color=auto'
@@ -34,7 +33,7 @@ export GREP_OPTIONS='--color=auto'
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
-path=(/usr/local/bin /usr/local/share/npm/bin $path)
+
 export GIT_EDITOR="nvim"
 
 rndpw() {
@@ -67,10 +66,9 @@ alias vup="vagrant up"
 alias vssh="vagrant ssh"
 alias vhalt="vagrant halt"
 
-alias vim="echo 'use nvim instead.'"
+alias vim="nvim"
 
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-eval `boot2docker shellinit 2>/dev/null`
+# eval `boot2docker shellinit 2>/dev/null`
 
 if [[ -e /Users/evan/Documents/Code/Focus/focus/bin/focus ]]; then
   eval "$(/Users/evan/Documents/Code/Focus/focus/bin/focus init -)"
@@ -84,7 +82,15 @@ function editconflicts() {
   nvim +/"<<<<<<<" $( git diff --name-only --diff-filter=U | xargs )
 }
 
-# added by travis gem
 [ -f /Users/evan/.travis/travis.sh ] && source /Users/evan/.travis/travis.sh
-
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
+# Desired PATH priority
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi   # rbenv
+export PATH="/usr/local/share/npm/bin:$PATH"                  # NPM
+export PATH="/usr/local/sbin:$PATH"                           # Homebrew
+export PATH="~/.cargo/bin:$PATH"                              # Rust / Cargo
+export PATH="/Users/evan/Bin:$PATH"                           # ~/Bin
+export PATH="./bin:$PATH"                                     # ./bin
+
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_51.jdk/Contents/Home"

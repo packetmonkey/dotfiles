@@ -23,6 +23,8 @@ NeoBundle 'christoomey/vim-tmux-navigator'  " Unified vim split/tmux pane naviga
 NeoBundle 'scrooloose/nerdtree'             " File explorer
 NeoBundle 'tpope/vim-dispatch'              " Run things async
 NeoBundle 'easymotion/vim-easymotion'       " Cheat moving around
+NeoBundle 'christoomey/vim-sort-motion'     " 'gs' Sort objects and motions
+NeoBundle 'vim-scripts/ReplaceWithRegister' " 'gr' Replace with register motion
 
 " Text Objects
 NeoBundle 'kana/vim-textobj-user'           " Custom text object support
@@ -51,6 +53,8 @@ NeoBundle 'wesgibbs/vim-irblack'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'cocopon/iceberg.vim'
+NeoBundle 'rakr/vim-one'
+NeoBundle 'dracula/vim.git'
 
 NeoBundle 'tpope/vim-classpath'
 
@@ -65,8 +69,6 @@ NeoBundleCheck
                                        " Editor Configuration {{{
 syntax on
 set t_Co=256                           " 256 Colors
-let base16colorspace=256               " Access colors present in 256 colorspace
-color iceberg
 set background=dark
 set laststatus=2                       " Always show the status line
 set encoding=utf-8                     " UTF-8 for everything
@@ -112,6 +114,28 @@ set wildignore+=*.class
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
+
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (empty($TMUX))
+	if (has("nvim"))
+	"For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+	let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+	endif
+	"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+	"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+	" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+	if (has("termguicolors"))
+		set termguicolors
+	endif
+endif
+
+let g:jellybeans_use_term_italics = 1
+
+colorscheme dracula
+
+
 " }}}
 " Lightline Configuration {{{
 let g:lightline = {
@@ -159,10 +183,14 @@ autocmd! BufReadPost,BufWritePost * Neomake
 
 let g:neomake_ruby_enabled_makers = ['rubocop']
 " }}}
-"z Mappings {{{
+"Mappings {{{
 let mapleader="\<SPACE>"
 nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>o :CtrlP<cr>
+
+" Make it really easy to edit vim configs
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
@@ -182,8 +210,11 @@ nmap ga <Plug>(EasyAlign)
 " Force saving files that require root permission
 cmap w!! %!sudo tee > /dev/null %
 
+" This needs to be a function that either calls this or in XML calls
+" silent %!xmllint --encode UTF-8 --format -
 map <Leader>i mmgg=G`m
 map <Leader>p :set paste<CR><esc>"*]p:set nopaste<cr>
+map <Leader>w :w<CR>
 
 " Hack workaround to make C-h work
 " https://github.com/neovim/neovim/issues/2048
