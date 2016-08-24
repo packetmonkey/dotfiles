@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+
+# Helper methods for colorized terminal output
+class String
+  def colorize(color_code)
+    "\e[#{color_code}m#{self}\e[0m"
+  end
+
+  def red
+    colorize(31)
+  end
+end
+
+# Wraps logic for generating my fancy ruby prompt segment
+class RubyPrompt
+  def initialize(path)
+    self.path = path
+  end
+
+  def prompt
+    return unless ruby_project?
+    ruby_version = `rbenv version`.split(' ').first
+    " <#{ruby_version}>".red
+  end
+
+  private
+
+  attr_accessor :path
+
+  # We only care if our current directory, or a parent directory has
+  # a Gemfile or .ruby-version file present, otherwise we don't want
+  # to just display the system ruby. Good practice dictates this should
+  # be present for all ruby projects where we actually care what the
+  # ruby version is set to.
+  # Grifted with love from Bundler
+  def ruby_project?
+    search_up('Gemfile', '.ruby-version') do |filename|
+      return true if File.file?(filename)
+    end
+
+    false
+  end
+
+  # Grifted with love from Bundler
+  def search_up(*names)
+    previous = nil
+    current  = File.expand_path(::Pathname.pwd)
+
+    until !File.directory?(current) || current == previous
+      names.each do |name|
+        filename = File.join(current, name)
+        yield filename
+      end
+      previous = current
+      current = File.expand_path('..', current)
+    end
+  end
+end
+
+puts RubyPrompt.new(ARGV[0]).prompt
+
+# vim: ft=ruby

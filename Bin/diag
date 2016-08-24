@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+sudo time dtruss /usr/bin/env "$@"
