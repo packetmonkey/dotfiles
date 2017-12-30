@@ -9,7 +9,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'tpope/vim-fugitive'              " Awesome git plugin
 NeoBundle 'ervandew/supertab'               " Tab completion
-NeoBundle 'benekastah/neomake'              " Syntax checking
+NeoBundle 'w0rp/ale'
 NeoBundle 'tomtom/tcomment_vim'             " Toggle comment blocks
 NeoBundle 'itchyny/lightline.vim'           " Fancy status line
 NeoBundle 'tpope/vim-rails'                 " Ruby on Rails helpers
@@ -18,8 +18,6 @@ NeoBundle 'tpope/vim-surround'              " 'Surround' motion
 NeoBundle 'bronson/vim-trailing-whitespace' " Detect and fix trailing whitespace
 NeoBundle 'tpope/vim-endwise'               " Auto-close structures
 NeoBundle 'kien/ctrlp.vim'                  " Fuzzy Search
-NeoBundle 'sjl/gundo.vim'                   " Graphical undo tree
-NeoBundle 'christoomey/vim-tmux-navigator'  " Unified vim split/tmux pane navigation
 NeoBundle 'scrooloose/nerdtree'             " File explorer
 NeoBundle 'tpope/vim-dispatch'              " Run things async
 NeoBundle 'easymotion/vim-easymotion'       " Cheat moving around
@@ -40,6 +38,10 @@ NeoBundle 'mustache/vim-mustache-handlebars' " Handlebars
 NeoBundle 'ekalinin/Dockerfile.vim'          " Docker
 NeoBundle 'rust-lang/rust.vim'               " Rust
 NeoBundle 'cespare/vim-toml'                 " TOML
+NeoBundle 'wannesm/wmgraphviz.vim'           " DOT
+NeoBundle 'tpope/vim-classpath'              " Java
+NeoBundle 'dag/vim-fish'                     " fish Script
+NeoBundle 'chikamichi/mediawiki.vim'         " Wiki
 
 " Color Schemes
 NeoBundle 'therubymug/vim-pyte'
@@ -55,8 +57,10 @@ NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'cocopon/iceberg.vim'
 NeoBundle 'rakr/vim-one'
 NeoBundle 'dracula/vim.git'
+NeoBundle 'jacoborus/tender'
+NeoBundle 'trevordmiller/nova-vim'
+NeoBundle 'w0ng/vim-hybrid'
 
-NeoBundle 'tpope/vim-classpath'
 
 call neobundle#end()
 
@@ -68,7 +72,6 @@ NeoBundleCheck
                                        " }}}
                                        " Editor Configuration {{{
 syntax on
-set t_Co=256                           " 256 Colors
 set background=dark
 set laststatus=2                       " Always show the status line
 set encoding=utf-8                     " UTF-8 for everything
@@ -81,7 +84,7 @@ set spell                              " Enable spell checking
 set backup                             " Create backup files
 set writebackup                        " Backup before overwriting a file
 set backupdir=~/.config/nvim/_backup// " Where to put backup files
-set directory=~/.config.nvim/_temp//   " Where to put swap files
+set directory=~/.config/nvim/_temp//   " Where to put swap files
 set wildmenu                           " Visual autocomplete for command menu
 set showcmd                            " Display incomplete commands
 set nowrap                             " Don't wrap lines
@@ -115,26 +118,8 @@ set wildignore+=*.class
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-if (empty($TMUX))
-	if (has("nvim"))
-	"For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-	let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-	endif
-	"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-	"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-	" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-	if (has("termguicolors"))
-		set termguicolors
-	endif
-endif
-
-let g:jellybeans_use_term_italics = 1
-
-colorscheme dracula
-
+colorscheme tender
+highlight Comment cterm=italic
 
 " }}}
 " Lightline Configuration {{{
@@ -164,6 +149,11 @@ let g:lightline = {
       \   'lineinfo': '%3l/%L:%-2v',
       \ },
 \ }
+
+
+let g:ale_fixers = {
+\   'ruby': ['rubocop']
+\}
 " }}}
 " CtrlP Configuration {{{
 let g:ctrlp_use_caching = 0
@@ -177,16 +167,16 @@ else
     \ }
 endif
 " }}}
-" Syntax Checker Configuration {{{
-
-autocmd! BufReadPost,BufWritePost * Neomake
-
-let g:neomake_ruby_enabled_makers = ['rubocop']
-" }}}
 "Mappings {{{
 let mapleader="\<SPACE>"
+
 nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>o :CtrlP<cr>
+nnoremap <leader>z za
+
+" Easily navigate syntax problems
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " Make it really easy to edit vim configs
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -216,15 +206,25 @@ map <Leader>i mmgg=G`m
 map <Leader>p :set paste<CR><esc>"*]p:set nopaste<cr>
 map <Leader>w :w<CR>
 
-" Hack workaround to make C-h work
-" https://github.com/neovim/neovim/issues/2048
-if has('nvim')
-  nmap <bs> :<c-u>TmuxNavigateLeft<cr>
-endif
-" }}}
+tnoremap <Esc> <C-\><C-n>
 
-let g:deoplete#enable_at_startup = 1
 
 au BufNewFile,BufRead *.gradle set filetype=groovy
+
+
+
+" Markdown
+" Highlight words to avoid in tech writing
+"   http://css-tricks.com/words-avoid-educational-writing/
+
+highlight TechWordsToAvoid ctermbg=red ctermfg=white
+function! MatchTechWordsToAvoid()
+	match TechWordsToAvoid /\c\<\(obviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however\|so,\|easy\)\>/
+endfunction
+autocmd FileType markdown call MatchTechWordsToAvoid()
+autocmd BufWinEnter *.md,*.markdown call MatchTechWordsToAvoid()
+autocmd InsertEnter *.md,*.markdown call MatchTechWordsToAvoid()
+autocmd InsertLeave *.md,*.markdown call MatchTechWordsToAvoid()
+autocmd BufWinLeave *.md,*.markdown call clearmatches()
 
 " vim:foldmethod=marker:foldlevel=0
