@@ -61,6 +61,7 @@ alias ll="ls -lah"
 alias fucking="sudo"
 alias psg="ps auwx | grep "
 alias most-used-commands="cat $HISTFILE | awk '{print $1}' | sort | uniq -c | sort -rn | head -n 30"
+alias meetings="nvim ~/Dropbox/meetings_notes.md"
 
 alias vup="vagrant up"
 alias vssh="vagrant ssh"
