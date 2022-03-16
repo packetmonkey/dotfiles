@@ -14,7 +14,8 @@ task default: [:bootstrap]
 task bootstrap: [
   :xcode, :homebrew, :git, :onepassword, :alfred, :netnewswire, :rustup, :htop,
   :nvim, :ruby, :starship, :operator_mono, :iterm2, :mas, :pocket, :obsidian,
-  :dotfiles, :steam, :zoom, :bat, :jq
+  :dotfiles, :steam, :zoom, :bat, :jq, :whatsapp, :graphiz, :youtube_dl,
+  :ripgrep, :textual
 ]
 
 def pause(message)
@@ -150,7 +151,7 @@ task :starship => :homebrew do
 end
 
 task :operator_mono do
-  fonts = [
+  fonts = {
     "#{Dir.home}/Downloads/fonts/Operator Mono Bold Italic.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Bold Italic.otf",
     "#{Dir.home}/Downloads/fonts/Operator Mono Bold Regular.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Bold Regular.otf",
     "#{Dir.home}/Downloads/fonts/Operator Mono Book Italic.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Book Italic.otf",
@@ -161,7 +162,7 @@ task :operator_mono do
     "#{Dir.home}/Downloads/fonts/Operator Mono Medium Regular.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Medium Regular.otf",
     "#{Dir.home}/Downloads/fonts/Operator Mono XLight Italic.otf" => "#{Dir.home}/Library/Fonts/Operator Mono XLight Italic.otf",
     "#{Dir.home}/Downloads/fonts/Operator Mono XLight Regular.otf" => "#{Dir.home}/Library/Fonts/Operator Mono XLight Regular.otf"
-  ]
+  }
 
   file_mapping_do fonts
 end
@@ -231,4 +232,24 @@ end
 
 task :jq => :homebrew do
   brew_do "jq"
+end
+
+task :whatsapp => :homebrew do
+  cask_do "whatsapp"
+end
+
+task :graphiz => :homebrew do
+  brew_do "graphviz"
+end
+
+task :youtube_dl => :homebrew do
+  brew_do "youtube-dl"
+end
+
+task :ripgrep => :homebrew do
+  brew_do "ripgrep"
+end
+
+task :textual => [:mas] do
+  mas_do "Textual", 1262957439
 end
