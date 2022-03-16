@@ -24,3 +24,6 @@
 ### Bluetooth
 - Set up keyboard and track padd
 - Show bluetooth in menu bar
+
+### Sound
+- Show sound in menu bar **always**
