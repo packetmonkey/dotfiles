@@ -4,6 +4,13 @@
 ### Accounts
 - Edit Accounts -> Email Addresses to set up email aliases
 
+## Safari
+### AutoFill
+- Uncheck Credit Cards
+- Uncheck User names and passwords
+### Search
+- Search engine **DuckDuckGo**
+
 ## System Preferences
 ### Desktop & Screen Saver
 #### Screen Saver
