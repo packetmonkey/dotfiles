@@ -8,6 +8,8 @@
 # TODO
 # - Set DDG as safari default search
 
+require 'fileutils'
+
 task default: [:bootstrap]
 task bootstrap: [
   :xcode, :homebrew, :git, :onepassword, :alfred, :netnewswire, :rustup, :htop,
@@ -54,6 +56,19 @@ def mas_do(name, mas_id, &block)
   end
 end
 
+def file_mapping_do(mapping)
+  mapping.each do |source_path, dest_path|
+    unless File.exist? dest_path
+      if File.exist? source_path
+        puts "Moving #{source_path} -> #{dest_path}"
+        FileUtils.mv source_path, dest_path
+      else
+        pause "Place file at #{source_path}"
+        redo
+      end
+    end
+  end
+end
 
 def append(file_path, string)
   File.open(file_path, 'a') do |f|
@@ -136,32 +151,28 @@ end
 
 task :operator_mono do
   fonts = [
-    "Operator Mono Bold Italic.otf",
-    "Operator Mono Bold Regular.otf",
-    "Operator Mono Book Italic.otf",
-    "Operator Mono Book Regular.otf",
-    "Operator Mono Light Italic.otf",
-    "Operator Mono Light Regular.otf",
-    "Operator Mono Medium Italic.otf",
-    "Operator Mono Medium Regular.otf",
-    "Operator Mono XLight Italic.otf",
-    "Operator Mono XLight Regular.otf"
+    "#{Dir.home}/Downloads/fonts/Operator Mono Bold Italic.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Bold Italic.otf",
+    "#{Dir.home}/Downloads/fonts/Operator Mono Bold Regular.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Bold Regular.otf",
+    "#{Dir.home}/Downloads/fonts/Operator Mono Book Italic.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Book Italic.otf",
+    "#{Dir.home}/Downloads/fonts/Operator Mono Book Regular.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Book Regular.otf",
+    "#{Dir.home}/Downloads/fonts/Operator Mono Light Italic.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Light Italic.otf",
+    "#{Dir.home}/Downloads/fonts/Operator Mono Light Regular.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Light Regular.otf",
+    "#{Dir.home}/Downloads/fonts/Operator Mono Medium Italic.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Medium Italic.otf",
+    "#{Dir.home}/Downloads/fonts/Operator Mono Medium Regular.otf" => "#{Dir.home}/Library/Fonts/Operator Mono Medium Regular.otf",
+    "#{Dir.home}/Downloads/fonts/Operator Mono XLight Italic.otf" => "#{Dir.home}/Library/Fonts/Operator Mono XLight Italic.otf",
+    "#{Dir.home}/Downloads/fonts/Operator Mono XLight Regular.otf" => "#{Dir.home}/Library/Fonts/Operator Mono XLight Regular.otf"
   ]
 
-  fonts.each do |font|
-    dest_path = "#{Dir.home}/Library/Fonts/#{font}"
-    unless File.exist? dest_path
-      source_path = "#{Dir.home}/Downloads/fonts/#{font}"
-      if File.exist? source_path
-        require 'fileutils'
-        puts "Copying #{source_path} -> #{dest_path}"
-        FileUtils.copy_file source_path, dest_path
-      else
-        pause "Place font at #{source_path}"
-        redo
-      end
-    end
-  end
+  file_mapping_do fonts
+end
+
+task :ssh_keys do
+  mapping = {
+    "#{Dir.home}/downloads/id_rsa" => "#{Dir.home}/.ssh/id_rsa",
+    "#{Dir.home}/downloads/id_rsa.pub" => "#{Dir.home}/.ssh/id_rsa.pub"
+  }
+
+  file_mapping_do mapping
 end
 
 task :iterm2 => [:homebrew, :operator_mono] do
