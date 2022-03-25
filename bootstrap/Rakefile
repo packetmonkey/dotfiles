@@ -15,7 +15,8 @@ task bootstrap: [
   :xcode, :homebrew, :git, :onepassword, :alfred, :netnewswire, :rustup, :htop,
   :nvim, :ruby, :starship, :operator_mono, :iterm2, :mas, :pocket, :obsidian,
   :dotfiles, :steam, :zoom, :bat, :jq, :whatsapp, :graphiz, :youtube_dl,
-  :ripgrep, :textual
+  :ripgrep, :textual, :docker, :settings, :vlc, :dust, :soulver, :tor,
+  :omnifocus, :fd
 ]
 
 def pause(message)
@@ -97,6 +98,7 @@ task :git => :homebrew do
   brew_do "git" do
     system 'git config --global user.name "Evan Sharp"'
     system 'git config --global user.email evan@uninitialized-memory.com'
+    system 'git config --global init.defaultBranch main'
   end
 end
 
@@ -136,6 +138,9 @@ end
 
 task :nvim => :homebrew do
   brew_do 'nvim'
+
+  # This is needed for deoplete and other things we want to use
+  system "python3 -m pip install --user --upgrade pynvim"
 end
 
 task :ruby => :homebrew do
@@ -250,6 +255,38 @@ task :ripgrep => :homebrew do
   brew_do "ripgrep"
 end
 
+task :dust => :homebrew do
+  brew_do "dust"
+end
+
 task :textual => [:mas] do
   mas_do "Textual", 1262957439
+end
+
+task :docker => :homebrew do
+  cask_do "docker"
+end
+
+task :vlc => :homebrew do
+  cask_do "vlc"
+end
+
+task :soulver => :homebrew do
+  cask_do "soulver"
+end
+
+task :tor => :homebrew do
+  cask_do "tor-browser"
+end
+
+task :omnifocus => :homebrew do
+  cask_do "omnifocus"
+end
+
+task :fd => :homebrew do
+  brew_do "fd"
+end
+
+
+task :settings do
 end

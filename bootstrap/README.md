@@ -4,6 +4,11 @@
 ### Accounts
 - Edit Accounts -> Email Addresses to set up email aliases
 
+## Messages
+### iMessage
+- Enable Messages in iCloud
+- On iPhone go to Settings > Messages > Text Message Forwarding and enable new mac if you want
+
 ## Safari
 ### AutoFill
 - Uncheck Credit Cards
