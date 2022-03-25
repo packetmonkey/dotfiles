@@ -1,67 +1,60 @@
-packadd minpac
-call minpac#init()
+call plug#begin()
+"" call plug#begin(stdpath('data') . '/plugged')
 
-call minpac#add('k-takata/minpac', {'type': 'opt'})
+Plug 'christoomey/vim-sort-motion' " `gs` Sort objects and motions
+Plug 'tpope/vim-commentary'        " `gc` toggle comment blocks
+Plug 'junegunn/vim-easy-align'     " Fancy alignment
+Plug 'tpope/vim-endwise'           " Auto-insert `end` in ruby
+Plug 'tpope/vim-surround'          " 'Surround' motion
+Plug 'tpope/vim-fugitive'          " Git functions (statusline branch)
+Plug 'vimwiki/vimwiki'             " Personal wiki
 
-call minpac#add('christoomey/vim-sort-motion')      " 'gs' Sort objects and motions
-call minpac#add('tpope/vim-fugitive')               " Awesome git plugin
-call minpac#add('tomtom/tcomment_vim')              " Toggle comment blocks
-call minpac#add('tpope/vim-rails')                  " Ruby on Rails helpers
-call minpac#add('junegunn/vim-easy-align')          " Fancy Alignment
-call minpac#add('tpope/vim-endwise')                " Auto-close structures
-call minpac#add('tpope/vim-surround')               " 'Surround' motion
+" Fuzzy finding magic
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Ensure fzf is installed and latest
+Plug 'junegunn/fzf.vim'                             " Integrate fzf with nvim
 
-call minpac#add('bronson/vim-trailing-whitespace')  " Detect and fix trailing whitespace
-call minpac#add('ctrlpvim/ctrlp.vim')               " Fuzzy Search
-call minpac#add('easymotion/vim-easymotion')        " Cheat moving around
-call minpac#add('sjl/gundo.vim')                    " Graphical undo tree
+"" Auto complete LSP Magic
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " async completion framework
+Plug 'neovim/nvim-lspconfig'                                  " Quickstart configurations for the Nvim LSP client
+Plug 'Shougo/deoplete-lsp'                                    " async completion framework
 
-" Text Objects
-call minpac#add('kana/vim-textobj-user')            " Custom text object support
-call minpac#add('rhysd/vim-textobj-ruby')           " Ruby block text objects
-call minpac#add('jasonlong/vim-textobj-css')        " CSS block text objects
-call minpac#add('glts/vim-textobj-comment')         " Comment text object
-call minpac#add('w0rp/ale')
-call minpac#add('ervandew/supertab')                " Tab completion
-call minpac#add('itchyny/lightline.vim')            " Fancy status line
+"Plug 'w0rp/ale'
+"" call minpac#add('ervandew/supertab')                " Tab completion
+"Plug 'itchyny/lightline.vim'              " Fancy status line
+"Plug 'maximbaz/lightline-ale'
 
 
-" Syntaxes
-call minpac#add('vim-ruby/vim-ruby')                " Ruby
-call minpac#add('wellbredgrapefruit/tomdoc.vim')    " TomDoc syntax
-call minpac#add('kchmck/vim-coffee-script')         " Coffee Script
-call minpac#add('plasticboy/vim-markdown')          " Markdown
-call minpac#add('mustache/vim-mustache-handlebars') " Handlebars
-call minpac#add('ekalinin/Dockerfile.vim')          " Docker
-call minpac#add('rust-lang/rust.vim')               " Rust
-call minpac#add('cespare/vim-toml')                 " TOML
-call minpac#add('wannesm/wmgraphviz.vim')           " DOT
-call minpac#add('tpope/vim-classpath')              " Java
-call minpac#add('chikamichi/mediawiki.vim')         " Wiki
 
-" Color Schemes
-call minpac#add('jacoborus/tender', {'type': 'opt'})
+"" Text Objects
+Plug 'kana/vim-textobj-user'            " Custom text object support
+Plug 'rhysd/vim-textobj-ruby'           " Ruby block text objects
 
-filetype plugin indent on
+"" Syntaxes
+Plug 'rust-lang/rust.vim'                             " Rust
+Plug 'plasticboy/vim-markdown'                        " Markdown
+Plug 'hashivim/vim-terraform'                         " Terraform
+Plug 'cespare/vim-toml'                               " TOML
 
-syntax on
+"" Color Schemes
+Plug 'jacoborus/tender'
+
+call plug#end()
+
+syntax on                              " Enable syntax highlighting
+colorscheme tender
+highlight Comment cterm=italic
+
+filetype plugin on
 
 set autoindent                         " Maintain indentation
-set background=dark
 set backspace=indent,eol,start         " Backspae though everything in insert mode
 set backup                             " Create backup files
-set backupdir=~/.config/nvim/_backup// " Where to put backup files
+set backupdir=~/.local/share/nvim/backup " Place backup files here
 set colorcolumn=80                     " Mark 80th column
 set cursorline                         " Highlight our current line
-set directory=~/.config/nvim/_temp//   " Where to put swap files
-set encoding=utf-8                     " UTF-8 for everything
 set expandtab                          " Use spaces, not tabs
-set foldenable                         " Enable folding
-set foldlevelstart=10                  " Open most folds by default
-set foldmethod=manual                  " Never fold anything for me
-set foldmethod=syntax                  " Syntax highlighting detainees folds
+set nofoldenable                       " No folds by default
 set hlsearch                           " Highlight search matches
-set ignorecase                         " Searches are case insensitive
 set incsearch                          " Incremental searching
 set laststatus=2                       " Always show the status line
 set lazyredraw                         " Redraw only when we need to
@@ -84,117 +77,59 @@ set wildmenu                           " Visual autocomplete for command menu
 set writebackup                        " Backup before overwriting a file
 
 
-"" Ignore Search Patterns
-set wildignore+=.sass-cache,.bundle,tmp,bundle,uploads,nore+=node_modules,bin
-set wildignore+=tags,*restart.txt,*.log,*.otf,.DS_Store,*.pdf
-set wildignore+=tags,*restart.txt,*.log,*.otf,.DS_Store
-set wildignore+=*.class
-
-" automatically rebalance windows on vim resize
-autocmd VimResized * :wincmd =
-
-colorscheme tender
-highlight Comment cterm=italic
-
-" Lightline Configuration
-let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
-      \ 'active': {
-      \   'left': [
-      \     [ 'mode', 'paste' ],
-      \     [ 'fugitive' ],
-      \     [ 'relativepath' ],
-      \     [ 'modified' ],
-      \   ],
-      \   'right': [
-      \     [ 'lineinfo' ],
-      \   ]
-      \ },
-      \ 'inactive': {
-      \   'left': [
-      \     [ 'filename', 'modified' ]
-      \   ],
-      \   'right' : [
-      \     [ 'lineinfo' ]
-      \   ]
-      \ },
-      \ 'component': {
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
-      \   'lineinfo': '%3l/%L:%-2v',
-      \ },
-\ }
-
-
-let g:ale_fixers = {
-\   'ruby': ['rubocop']
-\}
-
-" CtrlP Configuration
-let g:ctrlp_use_caching = 0
-
-if executable('ag')
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-else
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-  let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
-    \ }
-endif
-
 "Mappings
+
+" Use space as our leader key
 let mapleader="\<SPACE>"
 
-nnoremap <leader>u :GundoToggle<CR>
-nnoremap <leader>o :CtrlP<cr>
-nnoremap <leader>z za
 
-" Easily navigate syntax problems
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
+" Fancy paste
+map <Leader>p :set paste<CR><esc>"*]p:set nopaste<cr>
 
-" Make it really easy to edit vim configs
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
+""" LETS MAKE SURE WE HAVE CONFIGURED ALL THE PLUGSIN THE WAY WE WANT AND USE
 
+"" fzf 
+map <Leader>f :Files<CR>
+let $FZF_DEFAULT_COMMAND = 'rg --files'
+
+"" vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
+vmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+map ga <Plug>(EasyAlign)
 
-" Make it easier to bounce around windows
-" map <Leader>w <C-w>w
+let g:netrw_liststyle = 3    " Preferred list style
+let g:netrw_banner = 0       " Hide the header hii
+let g:netrw_browse_split = 4 " Open files in previous window
+let g:netrw_winsize = 25     " Pane should be 25% wide
+let g:netrw_dirhistmax = 0   " Don't create .netrwhist files
 
-" Open new tab and fuzzy find new file
-" map <leader>T :tabnew<cr><leader>f
+"" deoplete + lsp
 
-" Open next window
-" map <leader>W :tabnext<cr>
+" Rust
+lua require'lspconfig'.rust_analyzer.setup({})
+" lua require'lspconfig'.rust_analyzer.setup({
+" \   settings = {
+" \     "rust-analyzer" = {
+" \       "rust-analyzer.cargo.loadOutDirsFromCheck": true;
+" \       "rust-analyzer.procMacro.enable": true;
+" \     }
+" \   }
+" \ })
 
-" Force saving files that require root permission
-cmap w!! %!sudo tee > /dev/null %
+autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
+let g:rustfmt_autosave = 1
 
-" This needs to be a function that either calls this or in XML calls
-" silent %!xmllint --encode UTF-8 --format -
-map <Leader>i mmgg=G`m
-map <Leader>p :set paste<CR><esc>"*]p:set nopaste<cr>
-map <Leader>w :w<CR>
+" Ruby
+lua require'lspconfig'.solargraph.setup{}
+autocmd Filetype ruby setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-tnoremap <Esc> <C-\><C-n>
+let g:deoplete#enable_at_startup = 1
 
-
-au BufNewFile,BufRead *.gradle set filetype=groovy
+autocmd BufNewFile */diary/[0-9]*.md :silent 0r !echo "\# `date +'\%Y-\%m-\%d'`"
+autocmd BufNewFile */diary/[0-9]*.md :r ~/Dropbox/wiki/diary/template.md
 
 " Markdown
-" Highlight words to avoid in tech writing
-"   http://css-tricks.com/words-avoid-educational-writing/
-
-highlight TechWordsToAvoid ctermbg=red ctermfg=white
-function! MatchTechWordsToAvoid()
-	match TechWordsToAvoid /\c\<\(obviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however\|so,\|easy\)\>/
-endfunction
-autocmd FileType markdown call MatchTechWordsToAvoid()
-autocmd BufWinEnter *.md,*.markdown call MatchTechWordsToAvoid()
-autocmd InsertEnter *.md,*.markdown call MatchTechWordsToAvoid()
-autocmd InsertLeave *.md,*.markdown call MatchTechWordsToAvoid()
-autocmd BufWinLeave *.md,*.markdown call clearmatches()
+let g:markdown_syntax_conceal = 0
+let g:vim_markdown_conceal = 0
