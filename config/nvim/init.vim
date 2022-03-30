@@ -7,7 +7,7 @@ Plug 'junegunn/vim-easy-align'     " Fancy alignment
 Plug 'tpope/vim-endwise'           " Auto-insert `end` in ruby
 Plug 'tpope/vim-surround'          " 'Surround' motion
 Plug 'tpope/vim-fugitive'          " Git functions (statusline branch)
-Plug 'vimwiki/vimwiki'             " Personal wiki
+Plug 'easymotion/vim-easymotion'   " Easy motion
 
 " Fuzzy finding magic
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " Ensure fzf is installed and latest
