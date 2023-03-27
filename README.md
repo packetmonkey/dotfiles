@@ -1,21 +1,5 @@
-This is expected to be used with [RCM](https://github.com/thoughtbot/rcm)
+This repo has been reworked in inspiration of [Justin Searls](https://justin.searls.co)' own [dotfiles repo](https://github.com/searls/icloud-dotfiles)
 
-# Bootstrapping
+It lives in iCloud Drive which is made available on a clean reinstall of macOS.
 
-## NeoVim
-
-Need to install minpac so it can install everything else
-
-```console
-$ mkdir -p ~/.config/nvim/pack/minpac/opt
-$ cd ~/.config/nvim/pack/minpac/opt
-$ git clone https://github.com/k-takata/minpac.git
-```
-
-Then inside NeoVim run
-
-```
-:call minpac#update()
-```
-
-This will download and install everything.
+It can be bootstrapped or re-ran via [setup-new-mac](bin/setup-new-mac)

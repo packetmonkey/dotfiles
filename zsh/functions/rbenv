@@ -1,6 +1,0 @@
-# Get our local rbenv version if we have one
-function rbenv_local_version() {
-  echo " ‹$(rbenv version | sed -e "s/ (set.*$//")›"
-}
-
-# vim: ft=zsh

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-docker rm --force --volumes $(docker ps -a -q)
-docker rmi --force $(docker images -q)

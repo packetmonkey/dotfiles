@@ -15,9 +15,9 @@ vim.call('plug#', 'junegunn/fzf.vim')             -- Integrate fzf with nvim
 vim.call('plug#', 'neovim/nvim-lspconfig')        -- Quickstart configurations for the Nvim LSP client
 
 -- "" Auto complete LSP Magic
-vim.call('plug#', 'Shougo/deoplete.nvim', {['do'] = ':UpdateRemotePlugins'}) -- " async completion framework
-vim.call('plug#', 'Shougo/deoplete-lsp')
-vim.g['deoplete#enable_at_startup'] = 1
+-- vim.call('plug#', 'Shougo/deoplete.nvim', {['do'] = ':UpdateRemotePlugins'}) -- " async completion framework
+-- vim.call('plug#', 'Shougo/deoplete-lsp')
+-- vim.g['deoplete#enable_at_startup'] = 1
 
 -- Text Objects
 vim.call('plug#', 'kana/vim-textobj-user')        -- Custom text object support
