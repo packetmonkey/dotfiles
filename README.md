@@ -2,4 +2,4 @@ This repo has been reworked in inspiration of [Justin Searls](https://justin.sea
 
 It lives in iCloud Drive which is made available on a clean reinstall of macOS.
 
-It can be bootstrapped or re-ran via [setup-new-mac](bin/setup-new-mac)
+It can be bootstrapped or re-ran via [setup-new-mac](Bin/setup-new-mac)
