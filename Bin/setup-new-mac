@@ -56,11 +56,12 @@ else
   /bin/bash -c "$(curl --fail --silent --show-error --location https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+brew analytics off
 
 # Homebrew Packages
 echo ""
 echo "🍺 Installing Homebrew Packages"
-for package in neovim 1password shellcheck alfred mas git htop netnewswire ruby-install chruby starship obsidian bat jq ripgrep visual-studio-code soulver vlc tor-browser zoom whatsapp graphviz omnifocus yt-dlp omnigraffle monodraw fantastical backblaze 1password-cli tree raspberry-pi-imager; do
+for package in neovim 1password shellcheck alfred mas git htop netnewswire ruby-install chruby starship obsidian bat jq ripgrep visual-studio-code soulver vlc tor-browser zoom whatsapp graphviz omnifocus yt-dlp omnigraffle monodraw fantastical backblaze 1password-cli tree raspberry-pi-imager watch grammarly-desktop firefox google-chrome fzf little-snitch; do
   if brew list "${package}" > /dev/null 2>&1; then
     echo "✅ ${package} already installed"
   else
@@ -71,7 +72,7 @@ done
 # Mac App Store
 echo ""
 echo "🧑‍💻 Installing Mac App Store apps"
-for slug in Pocket-568494494 1PasswordForSafari-1569813296 Textual-1262957439 Parcel-639968404 Ghostery-1436953057; do
+for slug in Numbers-409203825 Pocket-568494494 PocketForSafari-1477385213 1PasswordForSafari-1569813296 Textual-1262957439 Parcel-639968404 Ghostery-1436953057 GrammarlySafari-1462114288; do
   name=$(echo "$slug" | cut -d'-' -f1)
   id=$(echo "$slug" | cut -d'-' -f2)
 
@@ -148,6 +149,14 @@ defaults write com.apple.dock wvous-tl-corner -int 5 # Top Right    - Start Scre
 defaults write com.apple.dock wvous-tr-corner -int 2 # Top Right    - Mission Control
 defaults write com.apple.dock wvous-bl-corner -int 4 # Bottom Left  - Desktop
 defaults write com.apple.dock wvous-br-corner -int 0 # Bottom Right - No option
+
+echo "🦁  Safari Settings"
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true # Show full website address
+defaults write com.apple.Safari IncludeDevelopMenu -bool true            # Show Develop menu in menu bar
+defaults write com.apple.Safari AutoFillPasswords -bool false            # Disable saving passwords (I use 1Password)
+defaults write com.apple.Safari AutoFillCreditCardData -bool false       # Disable auto filling Credit Cards
+
+
 
 # Vim Plugins
 echo "🔌 NeoVim Plugins Installed"
