@@ -63,7 +63,7 @@ brew analytics off
 # Homebrew Packages
 echo ""
 echo "🍺 Installing Homebrew Packages"
-for package in neovim 1password shellcheck alfred mas git git-lfs htop netnewswire ruby-install chruby starship obsidian bat jq ripgrep visual-studio-code soulver vlc tor-browser zoom whatsapp graphviz omnifocus yt-dlp omnigraffle monodraw fantastical backblaze 1password-cli tree raspberry-pi-imager watch grammarly-desktop firefox google-chrome fzf little-snitch ffmpeg github; do
+for package in neovim 1password shellcheck alfred mas git git-lfs htop netnewswire ruby-install chruby starship obsidian bat jq ripgrep visual-studio-code soulver vlc tor-browser zoom whatsapp graphviz omnifocus yt-dlp omnigraffle monodraw fantastical backblaze 1password-cli tree raspberry-pi-imager watch grammarly-desktop firefox google-chrome fzf little-snitch ffmpeg github discord; do
   if brew list "${package}" > /dev/null 2>&1; then
     echo "✅ ${package} already installed"
   else
@@ -89,7 +89,7 @@ done
 # Add applications to dock
 echo ""
 echo "🖥️ Adding applications to the dock"
-for name in 1Password.app Pocket.app NetNewsWire.app Obsidian.app OmniFocus.app Fantastical.app; do
+for name in 1Password.app Pocket.app NetNewsWire.app Obsidian.app OmniFocus.app Fantastical.app Discord.app; do
   if defaults read com.apple.dock persistent-apps | grep -q "${name}"; then
     echo "📲 ${name} already on the dock"
   else
