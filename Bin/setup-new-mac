@@ -27,6 +27,8 @@ IFS=$'\n\t'
 #   therefore prompt it's running
 #   - Possibly we can see if `bztransmit` is running or something similar as a heuristic
 # - Set screensaver require password after screen saver begins or display is turned off After 5 seconds
+# - Zoom
+#   - Enable screen recording (for screen sharing)
 
 icloud_drive="$HOME/Library/Mobile Documents/com~apple~CloudDocs"
 
@@ -61,7 +63,7 @@ brew analytics off
 # Homebrew Packages
 echo ""
 echo "🍺 Installing Homebrew Packages"
-for package in neovim 1password shellcheck alfred mas git htop netnewswire ruby-install chruby starship obsidian bat jq ripgrep visual-studio-code soulver vlc tor-browser zoom whatsapp graphviz omnifocus yt-dlp omnigraffle monodraw fantastical backblaze 1password-cli tree raspberry-pi-imager watch grammarly-desktop firefox google-chrome fzf little-snitch; do
+for package in neovim 1password shellcheck alfred mas git git-lfs htop netnewswire ruby-install chruby starship obsidian bat jq ripgrep visual-studio-code soulver vlc tor-browser zoom whatsapp graphviz omnifocus yt-dlp omnigraffle monodraw fantastical backblaze 1password-cli tree raspberry-pi-imager watch grammarly-desktop firefox google-chrome fzf little-snitch ffmpeg github; do
   if brew list "${package}" > /dev/null 2>&1; then
     echo "✅ ${package} already installed"
   else

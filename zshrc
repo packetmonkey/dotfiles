@@ -24,3 +24,5 @@ eval "$(starship init zsh)"
 
 # Enable fzf shell keybindings
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias obsidian-dl="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'"

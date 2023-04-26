@@ -7,9 +7,10 @@
 
 # Copied from earlier LFS install
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
 	required = true
+	process = git-lfs filter-process
 
 [pull]
     # Rebase branch on top of the fetched branch instead of merging
