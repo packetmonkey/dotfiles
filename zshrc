@@ -20,6 +20,7 @@ export PATH="$HOME/.cargo/bin:$PATH"  # Rust
 source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
 source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 
+eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
 # Enable fzf shell keybindings
