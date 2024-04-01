@@ -63,7 +63,7 @@ brew analytics off
 # Homebrew Packages
 echo ""
 echo "🍺 Installing Homebrew Packages"
-for package in neovim 1password shellcheck alfred mas git git-lfs htop netnewswire ruby-install chruby starship obsidian bat jq ripgrep visual-studio-code soulver vlc tor-browser zoom whatsapp graphviz omnifocus yt-dlp omnigraffle monodraw fantastical backblaze 1password-cli tree raspberry-pi-imager watch grammarly-desktop firefox google-chrome fzf little-snitch ffmpeg github discord; do
+for package in neovim 1password shellcheck alfred mas git git-lfs htop netnewswire ruby-install chruby starship obsidian bat jq ripgrep visual-studio-code soulver vlc tor-browser zoom whatsapp graphviz omnifocus yt-dlp omnigraffle monodraw fantastical backblaze 1password-cli tree raspberry-pi-imager watch grammarly-desktop firefox google-chrome fzf little-snitch ffmpeg github discord fswatch; do
   if brew list "${package}" > /dev/null 2>&1; then
     echo "✅ ${package} already installed"
   else
@@ -74,7 +74,7 @@ done
 # Mac App Store
 echo ""
 echo "🧑‍💻 Installing Mac App Store apps"
-for slug in Numbers-409203825 Pocket-568494494 PocketForSafari-1477385213 1PasswordForSafari-1569813296 Textual-1262957439 Parcel-639968404 Ghostery-1436953057 GrammarlySafari-1462114288; do
+for slug in Marked2-890031187 Pages-409201541 Numbers-409203825 Pocket-568494494 PocketForSafari-1477385213 1PasswordForSafari-1569813296 Textual-1262957439 Parcel-639968404 Ghostery-1436953057 GrammarlySafari-1462114288; do
   name=$(echo "$slug" | cut -d'-' -f1)
   id=$(echo "$slug" | cut -d'-' -f2)
 
@@ -158,6 +158,7 @@ defaults write com.apple.Safari IncludeDevelopMenu -bool true            # Show 
 defaults write com.apple.Safari AutoFillPasswords -bool false            # Disable saving passwords (I use 1Password)
 defaults write com.apple.Safari AutoFillCreditCardData -bool false       # Disable auto filling Credit Cards
 
+defaults write com.apple.finder QLInlinePreviewMinimumSupportedSize -int 512 # Disable in-icon previews
 
 
 # Vim Plugins
