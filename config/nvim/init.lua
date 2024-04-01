@@ -1,3 +1,5 @@
+local vim = vim
+local Plug = vim.fn['plug#']
 vim.call('plug#begin')
 
 vim.call('plug#', 'christoomey/vim-sort-motion')  -- `gs` Sort objects and motions
@@ -34,16 +36,20 @@ vim.g.terraform_fmt_on_save = 1                   -- Format on save
 
 -- Color Schemes
 vim.call('plug#', 'jacoborus/tender')             -- Tender
+vim.call('plug#', 'AlexvZyl/nordic.nvim')         -- Nordic
+vim.call('plug#', 'dracula/vim')                  -- Dracula
+Plug('mhartington/oceanic-next')
+Plug 'loctvl842/monokai-pro.nvim'
 
 vim.call('plug#end')
 
-vim.cmd('colorscheme tender')
-vim.cmd('highlight Comment cterm=italic')
+vim.cmd('colorscheme monokai-pro-spectrum')
+vim.cmd('highlight Comment cterm=italic gui=bolditalic guifg=#7f8ba4')
 vim.cmd('filetype plugin on')
 
 vim.opt.autoindent     = true                     -- Maintain indentation
-vim.opt.backspace      = "indent,eol,start"       -- Backspae though everything in insert mode
-vim.opt.backup         = true                     -- Create backup files
+vim.opt.backspace      = "indent,eol,start"       -- Backspace though everything in insert mode
+vim.opt.backup         = false                    -- Create backup files
 vim.opt.colorcolumn    = "80"                     -- Mark 80th column
 vim.opt.cursorline     = true                     -- Highlight our current line
 vim.opt.expandtab      = true                     -- Use spaces, not tabs
@@ -79,3 +85,15 @@ vim.api.nvim_set_keymap('n', 'ga', '<Plug>(EasyAlign)', {})
 
 -- LSP Clients
 require'lspconfig'.rust_analyzer.setup{}          -- Rust
+
+vim.opt.signcolumn = "yes" -- otherwise it bounces in and out, not strictly needed
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "ruby",
+  group = vim.api.nvim_create_augroup("RubyLSP", { clear = true }), -- not needed but good practice
+  callback = function()
+    vim.lsp.start {
+      name = "standard",
+      cmd = { "bundle", "exec", "standardrb", "--lsp" },
+    }
+  end,
+})
