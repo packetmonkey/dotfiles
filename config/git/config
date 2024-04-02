@@ -27,3 +27,12 @@
 [user]
     name = Evan Sharp
     email = evan@uninitialized-memory.com
+
+[checkout]
+	defaultRemote = origin
+
+[init]
+	defaultBranch = main
+
+[include]
+  path = ~/.config/git/local_config
