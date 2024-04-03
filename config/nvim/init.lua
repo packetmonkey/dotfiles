@@ -43,7 +43,16 @@ Plug 'loctvl842/monokai-pro.nvim'
 
 vim.call('plug#end')
 
-vim.cmd('colorscheme monokai-pro-spectrum')
+-- Below v0.8.0 neovim can't handle group names with @ or . in them which
+-- is used by some themes, so for default themes that use this group syntax
+-- we need a fallback so on debian stable systems we don't see a wall of errors
+-- on every launch
+if vim.fn.has("nvim-0.8.0") == 1 then
+  vim.cmd('colorscheme monokai-pro-spectrum')
+else
+  vim.cmd('colorscheme torte')
+end
+
 vim.cmd('highlight Comment cterm=italic gui=bolditalic guifg=#7f8ba4')
 vim.cmd('filetype plugin on')
 
