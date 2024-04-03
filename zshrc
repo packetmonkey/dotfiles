@@ -17,13 +17,26 @@ export PATH="/opt/homebrew/bin:$PATH" # Homebrew
 export PATH="$HOME/.cargo/bin:$PATH"  # Rust
 
 # Enable auto-switching rubies via .ruby-version
-source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
-source /opt/homebrew/opt/chruby/share/chruby/auto.sh
+if [[ -x /opt/homebrew/opt/chruby/share/chruby/chruby.sh ]]
+then
+  source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+  source /opt/homebrew/opt/chruby/share/chruby/auto.sh
+fi
 
-eval "$(zoxide init zsh)"
-eval "$(starship init zsh)"
+if whence zoxide > /dev/null 2>&1
+then
+  eval "$(zoxide init zsh)"
+fi
+
+if whence starship > /dev/null 2>&1
+then
+  eval "$(starship init zsh)"
+fi
 
 # Enable fzf shell keybindings
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-alias obsidian-dl="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'"
+if whence yt-dlp > /dev/null 2>&1
+then
+  alias obsidian-dl="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'"
+fi
