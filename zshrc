@@ -12,6 +12,7 @@ export SAVEHIST=1000000000
 autoload -U colors && colors
 
 export EDITOR="nvim"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'" # Use bat to highlight man
 
 export PATH="/opt/homebrew/bin:$PATH" # Homebrew
 export PATH="$HOME/.cargo/bin:$PATH"  # Rust
