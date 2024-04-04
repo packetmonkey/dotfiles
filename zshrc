@@ -17,6 +17,9 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'" # Use bat to highlight man
 export PATH="/opt/homebrew/bin:$PATH" # Homebrew
 export PATH="$HOME/.cargo/bin:$PATH"  # Rust
 
+alias vi="nvim"
+alias vim="nvim"
+
 # Enable auto-switching rubies via .ruby-version
 if [[ -x /opt/homebrew/opt/chruby/share/chruby/chruby.sh ]]
 then
