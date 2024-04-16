@@ -11,6 +11,8 @@ export SAVEHIST=1000000000
 
 autoload -U colors && colors
 
+source "$HOME/.config/zsh/plugins/zsh-vim-mode.plugin.zsh"
+
 export EDITOR="nvim"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'" # Use bat to highlight man
 
