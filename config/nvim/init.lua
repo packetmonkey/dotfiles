@@ -87,9 +87,14 @@ vim.opt.wrap           = false                    -- Don't wrap lines
 vim.opt.writebackup    = true                     -- Backup before overwriting a file
 
 -- Mappings
-vim.g.mapleader = " "                             -- Use space for the leader key
-vim.api.nvim_set_keymap('n', '<Leader>p', ':set paste<CR><esc>"*]p:set nopaste<cr>', {})
-vim.api.nvim_set_keymap('n', '<Leader>f', ':Files<CR>', {})
+vim.g.mapleader = " "                                                                     -- Use space for the leader key
+vim.api.nvim_set_keymap('n', '<Leader>f', ':Files<CR>', {})                               -- Find files
+vim.api.nvim_set_keymap('n', '<Leader>g', ':Rg<CR>', {})                                  -- Grep files
+vim.api.nvim_set_keymap('n', '<Leader>p', ':set paste<CR><esc>"*]p:set nopaste<cr>', {})  -- Paste from clipgoard
+vim.api.nvim_set_keymap('n', '<Leader>q', ':quit<cr>', {})                                -- easy quit
+vim.api.nvim_set_keymap('n', '<Leader>w', ':write<cr>', {})                               -- easy write
+vim.api.nvim_set_keymap('n', '<Leader>wq', ':wq<cr>', {})                                 -- easy write quit
+
 vim.api.nvim_set_keymap('n', 'ga', '<Plug>(EasyAlign)', {})
 
 -- These need to be defined after the above map leader
