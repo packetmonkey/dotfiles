@@ -36,3 +36,5 @@
 
 [include]
   path = ~/.config/git/local_config
+[commit]
+	verbose = true
