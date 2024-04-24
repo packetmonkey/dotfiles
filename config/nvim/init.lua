@@ -1,47 +1,36 @@
-local vim = vim
 local Plug = vim.fn['plug#']
 vim.call('plug#begin')
 
-vim.call('plug#', 'christoomey/vim-sort-motion')  -- `gs` Sort objects and motions
-vim.call('plug#', 'tpope/vim-commentary')         -- `gc` toggle comment blocks
-
-vim.call('plug#', 'junegunn/vim-easy-align')      -- Fancy alignment
-
-vim.call('plug#', 'tpope/vim-surround')           -- 'Surround' motion
-vim.call('plug#', 'easymotion/vim-easymotion')    -- Easy motion
-
--- Fuzzy finding magic
-vim.call('plug#', 'junegunn/fzf')                 -- Ensure fzf is installed and latest
-vim.call('plug#', 'junegunn/fzf.vim')             -- Integrate fzf with nvim
-
-vim.call('plug#', 'neovim/nvim-lspconfig')        -- Quickstart configurations for the Nvim LSP client
-
--- "" Auto complete LSP Magic
--- vim.call('plug#', 'Shougo/deoplete.nvim', {['do'] = ':UpdateRemotePlugins'}) -- " async completion framework
--- vim.call('plug#', 'Shougo/deoplete-lsp')
--- vim.g['deoplete#enable_at_startup'] = 1
-
+Plug('christoomey/vim-sort-motion')                             -- `gs` Sort objects and motions
+Plug('tpope/vim-commentary')                                    -- `gc` toggle comment blocks
+Plug('junegunn/vim-easy-align')                                 -- Fancy alignment
+Plug('tpope/vim-surround')                                      -- 'Surround' motion
+Plug('easymotion/vim-easymotion')                               -- Easy motion
+Plug('ibhagwan/fzf-lua')                                        -- Integrate fzf with nvim using lua
+Plug('nvim-tree/nvim-web-devicons')
+Plug('neovim/nvim-lspconfig')                                   -- Quickstart configurations for the Nvim LSP client
+Plug('L3MON4D3/LuaSnip', {['do'] = 'make install_jsregexp'})
+Plug('hrsh7th/cmp-nvim-lsp')
+Plug('hrsh7th/cmp-path')
+Plug('hrsh7th/cmp-cmdline')
+Plug('hrsh7th/nvim-cmp')                                        -- Must be after lsp, and other cmp-* plugins
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 
 -- Text Objects
-vim.call('plug#', 'kana/vim-textobj-user')        -- Custom text object support
-vim.call('plug#', 'rhysd/vim-textobj-ruby')       -- Ruby block text objects
+Plug('kana/vim-textobj-user')        -- Custom text object support
+Plug('rhysd/vim-textobj-ruby')       -- Ruby block text objects
 
 -- Syntaxes
-vim.call('plug#', 'rust-lang/rust.vim')           -- Rust
-vim.g.rustfmt_autosave = 1                        -- Format on save
-
-vim.call('plug#', 'tpope/vim-endwise')            -- Auto-insert `end` in ruby
-
-vim.call('plug#', 'hashivim/vim-terraform')       -- Terraform
-vim.g.terraform_fmt_on_save = 1                   -- Format on save
+Plug('rust-lang/rust.vim')           -- Rust
+Plug('tpope/vim-endwise')            -- Auto-insert `end` in ruby
+Plug('hashivim/vim-terraform')       -- Terraform
 
 -- Color Schemes
-vim.call('plug#', 'jacoborus/tender')             -- Tender
-vim.call('plug#', 'AlexvZyl/nordic.nvim')         -- Nordic
-vim.call('plug#', 'dracula/vim')                  -- Dracula
+Plug('jacoborus/tender')             -- Tender
+Plug('AlexvZyl/nordic.nvim')         -- Nordic
+Plug('dracula/vim')                  -- Dracula
 Plug('mhartington/oceanic-next')
-Plug 'loctvl842/monokai-pro.nvim'
+Plug('loctvl842/monokai-pro.nvim')
 
 vim.call('plug#end')
 
@@ -55,8 +44,8 @@ else
   vim.cmd('colorscheme torte')
 end
 
-vim.cmd('highlight Comment cterm=italic gui=bolditalic guifg=#7f8ba4')
 vim.cmd('filetype plugin on')
+vim.cmd('highlight Comment cterm=italic gui=bolditalic guifg=#7f8ba4')
 
 vim.opt.autoindent     = true                     -- Maintain indentation
 vim.opt.backspace      = "indent,eol,start"       -- Backspace though everything in insert mode
@@ -88,70 +77,23 @@ vim.opt.writebackup    = true                     -- Backup before overwriting a
 
 -- Mappings
 vim.g.mapleader = " "                                                                     -- Use space for the leader key
-vim.api.nvim_set_keymap('n', '<Leader>f', ':Files<CR>', {})                               -- Find files
-vim.api.nvim_set_keymap('n', '<Leader>g', ':Rg<CR>', {})                                  -- Grep files
+vim.api.nvim_set_keymap('n', '<Leader>f', ':FzfLua files<CR>', {})                        -- Find files
+vim.api.nvim_set_keymap('n', '<Leader>g', ':FzfLua live_grep<CR>', {})                    -- Grep files
+vim.api.nvim_set_keymap('n', 'ga',        '<Plug>(EasyAlign)', {})
 vim.api.nvim_set_keymap('n', '<Leader>p', ':set paste<CR><esc>"*]p:set nopaste<cr>', {})  -- Paste from clipgoard
 vim.api.nvim_set_keymap('n', '<Leader>q', ':quit<cr>', {})                                -- easy quit
 vim.api.nvim_set_keymap('n', '<Leader>w', ':write<cr>', {})                               -- easy write
 vim.api.nvim_set_keymap('n', '<Leader>wq', ':wq<cr>', {})                                 -- easy write quit
 
-vim.api.nvim_set_keymap('n', 'ga', '<Plug>(EasyAlign)', {})
-
--- These need to be defined after the above map leader
-
--- LSP Clients
-require'lspconfig'.rust_analyzer.setup{}          -- Rust
-
-vim.opt.signcolumn = "yes" -- otherwise it bounces in and out, not strictly needed
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "ruby",
-  group = vim.api.nvim_create_augroup("RubyLSP", { clear = true }), -- not needed but good practice
-  callback = function()
-    vim.lsp.start {
-      name = "standard",
-      cmd = { "bundle", "exec", "standardrb", "--lsp" },
-    }
-  end,
-})
-
-vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-  pattern = {"*.yaml.j2", "*.yml.j2"},
-  command = "set filetype=yaml"
-})
-
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "yaml", "markdown_inline", "ruby", "bash"},
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "yaml", "markdown_inline", "ruby", "bash", "gitcommit"},
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
-
-  -- List of parsers to ignore installing (or "all")
-  -- ignore_install = { "javascript" },
-
-  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+  sync_install = false, -- Install parsers asynchronously
+  auto_install = true,  -- Install missing parsers when entering buffer
 
   highlight = {
     enable = true,
-
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    -- the name of the parser)
-    -- list of language that will be disabled
-    -- disable = { "c", "rust" },
-    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-    -- disable = function(lang, buf)
-    --   local max_filesize = 100 * 1024 -- 100 KB
-    --   local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-    --   if ok and stats and stats.size > max_filesize then
-    --     return true
-    --   end
-    -- end,
 
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -159,4 +101,61 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+}
+
+local cmp = require'cmp'
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  window = {},
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  }),
+  sources = cmp.config.sources(
+    {
+      { name = 'nvim_lsp' },
+      { name = 'luasnip' },
+      { name = 'path' },
+    },
+    {
+      { name = 'buffer' },
+    }
+  )
+})
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources(
+    {
+      { name = 'path' }
+    },
+    {
+      {
+        name = 'cmdline',
+        option = {
+          ignore_cmds = { 'Man', '!' }
+        }
+      }
+    }
+  )
+})
+
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+require('lspconfig')['rust_analyzer'].setup {
+  capabilities = capabilities
+}
+
+vim.opt.signcolumn = "yes" -- otherwise it bounces in and out, not strictly needed
+require('lspconfig')['standardrb'].setup {
+  capabilities = capabilities,
+  cmd = { "bundle", "exec", "standardrb", "--lsp" },
 }
