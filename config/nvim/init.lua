@@ -7,14 +7,16 @@ Plug('junegunn/vim-easy-align')                                 -- Fancy alignme
 Plug('tpope/vim-surround')                                      -- 'Surround' motion
 Plug('easymotion/vim-easymotion')                               -- Easy motion
 Plug('ibhagwan/fzf-lua')                                        -- Integrate fzf with nvim using lua
-Plug('nvim-tree/nvim-web-devicons')
-Plug('neovim/nvim-lspconfig')                                   -- Quickstart configurations for the Nvim LSP client
-Plug('L3MON4D3/LuaSnip', {['do'] = 'make install_jsregexp'})
-Plug('hrsh7th/cmp-nvim-lsp')
-Plug('hrsh7th/cmp-path')
-Plug('hrsh7th/cmp-cmdline')
-Plug('hrsh7th/nvim-cmp')                                        -- Must be after lsp, and other cmp-* plugins
-Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
+Plug('nvim-tree/nvim-web-devicons')                             -- Integrated with fzf-lua for fancy icons
+Plug('neovim/nvim-lspconfig')                                   -- Quick start configurations for the Nvim LSP client
+Plug('L3MON4D3/LuaSnip', {['do'] = 'make install_jsregexp'})    -- Snippet engine for auto completing LSP snippets in nvim-cmp
+Plug('hrsh7th/cmp-nvim-lsp')                                    -- Allow nvim-cmp to autocomplete from LSP
+Plug('hrsh7th/cmp-path')                                        -- Allow nvim-cmp to autocomplete file paths
+Plug('hrsh7th/cmp-cmdline')                                     -- Allow nvim-cmp to autocomplete VIM commands
+Plug('hrsh7th/nvim-cmp')                                        -- Fancy autocomplete, Must be after lsp, and other cmp-* plugins
+Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'}) -- Fancy syntax parsing and highlighting
+Plug('nvim-lua/plenary.nvim')                                   -- Healper methods, Dependency of epwalsh/obsidian.nvim
+Plug('epwalsh/obsidian.nvim')                                   -- Obsidian.md integration
 
 -- Text Objects
 Plug('kana/vim-textobj-user')        -- Custom text object support
@@ -87,7 +89,7 @@ vim.api.nvim_set_keymap('n', '<Leader>wq', ':wq<cr>', {})                       
 
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "yaml", "markdown_inline", "ruby", "bash", "gitcommit"},
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "yaml", "markdown", "markdown_inline", "ruby", "bash", "gitcommit"},
 
   sync_install = false, -- Install parsers asynchronously
   auto_install = true,  -- Install missing parsers when entering buffer
