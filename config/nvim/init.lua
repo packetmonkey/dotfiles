@@ -87,7 +87,7 @@ vim.api.nvim_set_keymap('n', '<Leader>q', ':quit<cr>', {})                      
 vim.api.nvim_set_keymap('n', '<Leader>w', ':write<cr>', {})                               -- easy write
 vim.api.nvim_set_keymap('n', '<Leader>wq', ':wq<cr>', {})                                 -- easy write quit
 
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
   ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "yaml", "markdown", "markdown_inline", "ruby", "bash", "gitcommit"},
 
@@ -105,7 +105,7 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
-local cmp = require'cmp'
+local cmp = require('cmp')
 cmp.setup({
   snippet = {
     expand = function(args)
