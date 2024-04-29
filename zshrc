@@ -19,6 +19,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'" # Use bat to highlight man
 export PATH="/opt/homebrew/bin:$PATH" # Homebrew
 export PATH="$HOME/.cargo/bin:$PATH"  # Rust
 
+alias ls="eza"
 alias vi="nvim"
 alias vim="nvim"
 
