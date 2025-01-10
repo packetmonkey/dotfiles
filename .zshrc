@@ -23,13 +23,6 @@ alias ls="eza"
 alias vi="nvim"
 alias vim="nvim"
 
-# Enable auto-switching rubies via .ruby-version
-if [[ -f /opt/homebrew/opt/chruby/share/chruby/chruby.sh ]]
-then
-  source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
-  source /opt/homebrew/opt/chruby/share/chruby/auto.sh
-fi
-
 if whence zoxide > /dev/null 2>&1
 then
   eval "$(zoxide init zsh)"
