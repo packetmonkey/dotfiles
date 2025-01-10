@@ -20,6 +20,7 @@ export PATH="/opt/homebrew/bin:$PATH" # Homebrew
 export PATH="$HOME/.cargo/bin:$PATH"  # Rust
 
 alias ls="eza"
+alias ll="ls --long --all --header"
 alias vi="nvim"
 alias vim="nvim"
 
