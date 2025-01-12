@@ -1,3 +1,7 @@
+source $HOME/.config/zsh/plugins/antigen.zsh
+antigen bundle Aloxaf/fzf-tab
+antigen apply
+
 setopt AUTO_PARAM_SLASH     # tab completing directory appends a slash
 setopt HIST_IGNORE_ALL_DUPS # filter duplicates from history
 setopt HIST_IGNORE_SPACE    # don't record commands starting with a space
@@ -9,7 +13,8 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=1000000000
 export SAVEHIST=1000000000
 
-autoload -U colors && colors
+autoload -U colors   && colors
+autoload -U compinit && compinit
 
 source "$HOME/.config/zsh/plugins/zsh-vim-mode.plugin.zsh"
 
