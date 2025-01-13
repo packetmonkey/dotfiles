@@ -11,7 +11,6 @@ return {
 	config = function()
 		-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-		require("lspconfig").rust_analyzer.setup({})
 		require("lspconfig").bashls.setup({})
 		require("lspconfig").ansiblels.setup({})
 		require("lspconfig").gleam.setup({})
