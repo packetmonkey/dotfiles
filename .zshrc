@@ -1,5 +1,7 @@
 source $HOME/.config/zsh/plugins/antigen.zsh
 antigen bundle Aloxaf/fzf-tab
+
+antigen bundle zsh-users/zsh-syntax-highlighting # This says it has to be last
 antigen apply
 
 setopt AUTO_PARAM_SLASH     # tab completing directory appends a slash
