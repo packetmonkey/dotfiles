@@ -83,6 +83,11 @@ then
     --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
 fi
 
+if [ -f ~/.zshrc.local ]
+then
+  source ~/.zshrc.local
+fi
+
 # Must go last in .zshrc
 # https://github.com/zsh-users/zsh-syntax-highlighting?tab=readme-ov-file#why-must-zsh-syntax-highlightingzsh-be-sourced-at-the-end-of-the-zshrc-file
 if [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]
