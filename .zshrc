@@ -88,9 +88,15 @@ then
   source ~/.zshrc.local
 fi
 
+if whence mise > /dev/null 2>&1
+then
+  eval "$(mise activate zsh)"
+fi
+
 # Must go last in .zshrc
 # https://github.com/zsh-users/zsh-syntax-highlighting?tab=readme-ov-file#why-must-zsh-syntax-highlightingzsh-be-sourced-at-the-end-of-the-zshrc-file
 if [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]
 then
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
+
