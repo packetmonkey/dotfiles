@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+nvim "$TODO_DIR/todo.txt"

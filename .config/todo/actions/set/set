@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+file_path="$TODO_DIR/todo.txt"
+
+if [ $# -lt 3 ]; then
+  echo "Usage: set KEY VALUE ID" >&2
+  exit 1
+fi
+
+key=$2
+val=$3
+id=$4
+
+sed -i '' "${id}s/$/ ${key}:${val}/" "$file_path"

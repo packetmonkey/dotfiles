@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+[ "$1" = "usage" ] && exit 0
+
+shift
+
+"$TODO_FULL_SH" edit "$@"
