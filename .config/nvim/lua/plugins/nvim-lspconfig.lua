@@ -15,6 +15,7 @@ return {
 		require("lspconfig").ansiblels.setup({})
 		require("lspconfig").gleam.setup({})
 		require("lspconfig").yamlls.setup({})
+		require("lspconfig").openscad_lsp.setup({})
 
 		require("lspconfig").ruby_lsp.setup({
 			cmd = { "ruby-lsp" },
