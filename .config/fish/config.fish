@@ -1,6 +1,12 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 if status is-interactive
+    if test -f /opt/homebrew/bin/brew
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    end
+
+    if not set -q TMUX and type -q TMUX
+        exec tmux new-session -A -s default # attach default tmux session
+    end
+
     zoxide init fish | source
     starship init fish | source
     /opt/homebrew/bin/mise activate fish | source
