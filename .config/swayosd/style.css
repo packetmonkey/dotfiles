@@ -1,0 +1,23 @@
+window#osd {
+  background-color: rgba(34, 36, 54, 0.8);
+}
+
+  image,
+  label {
+    color: #C099FF;
+  }
+
+  trough {
+    min-height: inherit;
+    border-radius: inherit;
+    border: none;
+    background-color: rgba(25, 27, 41, 0.8);
+  }
+  progress {
+    min-height: inherit;
+    border-radius: inherit;
+    border: none;
+    background-color: #82aaff;
+    background-color: #65bcff;
+  }
+}
