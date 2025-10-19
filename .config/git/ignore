@@ -1,6 +1,0 @@
-tags
-.foreman
-.DS_Store
-vendor/bundle/
-.bundle
-.vscode

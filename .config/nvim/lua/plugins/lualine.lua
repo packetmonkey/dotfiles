@@ -7,5 +7,6 @@ return {
 		options = {
 			theme = "tokyonight-night",
 		},
+    extensions = { "neo-tree", "lazy", "fzf", "avante" },
 	},
 }
